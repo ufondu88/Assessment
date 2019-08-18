@@ -1,6 +1,7 @@
 import sys
 import os
 
+
 def waste(input_file):
     # insert input file into variable
     filename = input_file
@@ -12,11 +13,11 @@ def waste(input_file):
     # check if the length of the batch doesn't equal 52
     if len(batch) != 52:
         return "Invalid batch. Batch does not contain exactly 52 entries."
-    
+
     # check if every item in the batch is unique
     for item in batch:
         if batch.count(item) > 1:
-            return "This is an invalid batch. " + item + " appears more than once."    
+            return "This is an invalid batch. " + item + " appears more than once."
 
     # list to hold all the waste calculations
     waste_list = []
@@ -34,7 +35,7 @@ def waste(input_file):
             batch = original_batch(batch, i)
         next_waste = swap(batch, i)
         waste_list.append(next_waste)
-    
+
     # initialize the smallest waste and it's index in 'waste_list'
     least_waste = waste_list[0]
     least_waste_index = 0
@@ -50,6 +51,7 @@ def waste(input_file):
     else:
         return "By swapping " + batch[least_waste_index] + " and " + batch[least_waste_index + 1] + ", you could reduce waste metric from " + str(initial_total) + " to " + str(least_waste)
 
+
 def calculate_waste(calculate_batch):
     card = calculate_batch[i]
     card2 = calculate_batch[i + 1]
@@ -61,11 +63,11 @@ def calculate_waste(calculate_batch):
         # if the first character of the current item is A, set rank to 1...
         if card[0] == 'A':
             rank_1 = 1
-        
+
         # ...or else if the first character is either K, Q or J, set the rank to 10...
         elif card[0] in ['K', 'Q', 'J']:
             rank_1 = 10
-        
+
         else:
             # ...or else, if the rank is one digit long, set the rank to that digit
             if len(card) == 2:
@@ -99,19 +101,19 @@ def calculate_waste(calculate_batch):
             color_2 = 'red'
         else:
             color_2 = 'black'
-        
+
         """ check the suits of the current entry and the entry below. 
             The difference is the absolute value of the difference between their ranks"""
         # if the suits are the same, calculate the difference in rank...
         if suit_1 == suit_2:
             waste = abs(rank_1 - rank_2)
             total_waste += waste
-        
-        #...otherwise, if the colors are the same, multiply the difference in rank by 2...
+
+        # ...otherwise, if the colors are the same, multiply the difference in rank by 2...
         elif color_1 == color_2:
             waste = 2 * abs(rank_1 - rank_2)
             total_waste += waste
-        
+
         # ...otherwise, multiply the difference in rank by 3
         elif color_1 != color_2:
             waste = 3 * abs(rank_1 - rank_2)
@@ -120,6 +122,8 @@ def calculate_waste(calculate_batch):
     return total_waste
 
 # function to swap successive entries in the batch list
+
+
 def swap(swap_batch, j):
     dummy_variable = swap_batch[j]
     swap_batch[j] = swap_batch[j + 1]
@@ -128,6 +132,8 @@ def swap(swap_batch, j):
     return calculate_waste(swap_batch)
 
 # return the swapped batch to it's original form
+
+
 def original_batch(swap_batch, j):
     dummy_variable = swap_batch[j]
     swap_batch[j] = swap_batch[j - 1]
@@ -135,5 +141,6 @@ def original_batch(swap_batch, j):
 
     return swap_batch
 
-""" if __name__ == '__main__':
-    waste(*sys.argv[1:]) """
+
+if __name__ == '__main__':
+    waste(*sys.argv[1:])
