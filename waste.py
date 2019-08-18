@@ -1,9 +1,9 @@
 def waste(batch):
     if len(batch) != 52:
         return "Invalid batch. Batch does not contain exactly 52 entries."
-    for card in range(len(batch)):
-        if batch.count(card) > 1:
-            return "This is an invalid batch. " + card + " appears more than once."
+    for item in batch:
+        if batch.count(item) > 1:
+            return "This is an invalid batch. " + item + " appears more than once."
     
     total_waste = 0
 
