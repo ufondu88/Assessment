@@ -8,17 +8,23 @@ def waste(input_file):
 
     # open the file and read it's contents and store into the 'batch' variable
     with open(os.path.join(sys.path[0], filename), "r") as f:
-        batch = f.read()
+        batch = f.read()    
+
+    # replace extraenous characters in the string with null space
+    batch = batch.replace('\n    ', '').replace('[', '').replace(']', '').replace('"', '')
+    
+    # convert the string to a list
+    batch = batch.split(',')
 
     # check if the length of the batch doesn't equal 52
     if len(batch) != 52:
-        return "Invalid batch. Batch does not contain exactly 52 entries."
-
+        print("Invalid batch. Batch does not contain exactly 52 entries.")
+        raise SystemExit
     # check if every item in the batch is unique
     for item in batch:
         if batch.count(item) > 1:
-            return "This is an invalid batch. " + item + " appears more than once."
-
+            print("This is an invalid batch. " + item + " appears more than once.")
+            raise SystemExit
     # list to hold all the waste calculations
     waste_list = []
 
@@ -47,25 +53,26 @@ def waste(input_file):
             least_waste_index = i
 
     if initial_total <= least_waste:
-        return "The total waste is " + str(initial_total) + ". Waste is already minimized"
+        print ("The total waste is " + str(initial_total) + ". Waste is already minimized")
     else:
-        return "By swapping " + batch[least_waste_index] + " and " + batch[least_waste_index + 1] + ", you could reduce waste metric from " + str(initial_total) + " to " + str(least_waste)
+        print("By swapping " + batch[least_waste_index] + " and " + batch[least_waste_index + 1] +
+              ", you could reduce waste metric from " + str(initial_total) + " to " + str(least_waste))
 
 
 def calculate_waste(calculate_batch):
-    card = calculate_batch[i]
-    card2 = calculate_batch[i + 1]
     # initialize total waste to 0
     total_waste = 0
 
     # get the ranks and suits
     for i in range(len(calculate_batch) - 1):
+        card = calculate_batch[i]
+        card2 = calculate_batch[i + 1]
         # if the first character of the current item is A, set rank to 1...
-        if card[0] == 'A':
+        if card[0].upper() == 'A':
             rank_1 = 1
 
         # ...or else if the first character is either K, Q or J, set the rank to 10...
-        elif card[0] in ['K', 'Q', 'J']:
+        elif card[0].upper() in ['K', 'Q', 'J']:
             rank_1 = 10
 
         else:
@@ -74,7 +81,7 @@ def calculate_waste(calculate_batch):
                 rank_1 = int(card[0])
             # ...or else, set the rank to the first two characters
             else:
-                rank_1 = card[:2]
+                rank_1 = int(card[:2])
 
         # we do the same thing for the card below the current card as we did for the current card
         if card2[0] == 'A':
@@ -82,10 +89,10 @@ def calculate_waste(calculate_batch):
         elif card2[0] in ['K', 'Q', 'J']:
             rank_2 = 10
         else:
-            if len(card) == 2:
+            if len(card2) == 2:
                 rank_2 = int(card2[0])
             else:
-                rank_2 = card2[:2]
+                rank_2 = int(card2[:2])
 
         # the suits are the last characters in the string
         suit_1 = card[-1]
@@ -93,14 +100,14 @@ def calculate_waste(calculate_batch):
 
         # if the suit is C or S, the color is red, otherwise the color is black
         if suit_1 in ['C', 'S']:
-            color_1 = 'red'
-        else:
             color_1 = 'black'
+        else:
+            color_1 = 'red'
 
         if suit_2 in ['C', 'S']:
-            color_2 = 'red'
-        else:
             color_2 = 'black'
+        else:
+            color_2 = 'red'
 
         """ check the suits of the current entry and the entry below. 
             The difference is the absolute value of the difference between their ranks"""
