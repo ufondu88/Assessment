@@ -1,5 +1,12 @@
-def waste(batch):
-    waste_batch = batch
+import sys
+
+def waste(input_file):
+    filename = input_file
+
+    with open(filename, "r") as f:
+        batch = f.read()
+
+    print(batch)
     if len(batch) != 52:
         return "Invalid batch. Batch does not contain exactly 52 entries."
     for item in batch:
@@ -83,59 +90,8 @@ def original_batch(swap_batch, j):
     swap_batch[j - 1] = dummy_variable
 
     return swap_batch
-batch = [
-    "AH",
-    "KH",
-    "10D",
-    "5H",
-    "AC",
-    "10S",
-    "AS",
-    "8H",
-    "9D",
-    "5S",
-    "3D",
-    "7S",
-    "2D",
-    "JH",
-    "QS",
-    "2H",
-    "QD",
-    "6S",
-    "5D",
-    "8D",
-    "2C",
-    "JC",
-    "KS",
-    "KD",
-    "4H",
-    "3H",
-    "3C",
-    "6D",
-    "QH",
-    "9H",
-    "JD",
-    "7D",
-    "AD",
-    "2S",
-    "3S",
-    "4S",
-    "9S",
-    "9C",
-    "5C",
-    "7C",
-    "QC",
-    "10H",
-    "10C",
-    "8S",
-    "JS",
-    "4D",
-    "6H",
-    "4C",
-    "8C",
-    "7H",
-    "6C",
-    "KC"
-]
 
-print(waste(batch))
+""" if __name__ == '__main__':
+    waste(*sys.argv[1:]) """
+
+waste('batch_file.txt')
