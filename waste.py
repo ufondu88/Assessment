@@ -11,16 +11,16 @@ def waste(input_file):
         batch = f.read()    
 
     # replace extraenous characters in the string with null space
-    batch = batch.replace('\n    ', '').replace('[', '').replace(']', '').replace('"', '')
+    batch = batch.replace('\n', '').replace(' ','').replace('[', '').replace(']', '').replace('"', '')
     
     # convert the string to a list
     batch = batch.split(',')
 
-    # check if the length of the batch doesn't equal 52
+    # raise error if the batch length is not exactly 52
     if len(batch) != 52:
         print("Invalid batch. Batch does not contain exactly 52 entries.")
         raise SystemExit
-    # check if every item in the batch is unique
+    # raise error if every item in the batch is not unique
     for item in batch:
         if batch.count(item) > 1:
             print("This is an invalid batch. " + item + " appears more than once.")
