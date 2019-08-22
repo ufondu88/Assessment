@@ -62,65 +62,67 @@ def calculate_waste(calculate_batch):
 
     # get the ranks and suits
     for i in range(len(calculate_batch) - 1):
-        card = calculate_batch[i]
-        card2 = calculate_batch[i + 1]
+        current_card = calculate_batch[i]
+        next_card = calculate_batch[i + 1]
         # if the first character of the current item is A, set rank to 1...
-        if card[0].upper() == 'A':
-            rank_1 = 1
+        if current_card[0].upper() == 'A':
+            current_rank = 1
 
         # ...or else if the first character is either K, Q or J, set the rank to 10...
-        elif card[0].upper() in ['K', 'Q', 'J']:
-            rank_1 = 10
+        elif current_card[0].upper() in ['K', 'Q', 'J']:
+            current_rank = 10
 
         else:
-            # ...or else, if the rank is one digit long, set the rank to that digit
-            if len(card) == 2:
-                rank_1 = int(card[0])
-            # ...or else, set the rank to the first two characters
+            # ...or else, if there are 2 characters in the card (e.g QC or 4H), then rank is neccessarily one digit long.
+            # The following two lines set the rank to that digit
+            if len(current_card) == 2:
+                current_rank = int(current_card[0])
+            # ...or else, there have to 3 characters in the card (e.g 10H or 10C) and the rank will be the first 2 characters.
+            # The following two lines will set the rank to the first two characters
             else:
-                rank_1 = int(card[:2])
+                current_rank = int(current_card[:2])
 
         # we do the same thing for the card below the current card as we did for the current card
-        if card2[0] == 'A':
-            rank_2 = 1
-        elif card2[0] in ['K', 'Q', 'J']:
-            rank_2 = 10
+        if next_card[0] == 'A':
+            next_rank = 1
+        elif next_card[0] in ['K', 'Q', 'J']:
+            next_rank = 10
         else:
-            if len(card2) == 2:
-                rank_2 = int(card2[0])
+            if len(next_card) == 2:
+                next_rank = int(next_card[0])
             else:
-                rank_2 = int(card2[:2])
+                next_rank = int(next_card[:2])
 
         # the suits are the last characters in the string
-        suit_1 = card[-1]
-        suit_2 = card2[-1]
+        current_suit = current_card[-1]
+        next_suit = next_card[-1]
 
         # if the suit is C or S, the color is red, otherwise the color is black
-        if suit_1 in ['C', 'S']:
-            color_1 = 'black'
+        if current_suit in ['C', 'S']:
+            current_color = 'black'
         else:
-            color_1 = 'red'
+            current_color = 'red'
 
-        if suit_2 in ['C', 'S']:
-            color_2 = 'black'
+        if next_suit in ['C', 'S']:
+            next_color = 'black'
         else:
-            color_2 = 'red'
+            next_color = 'red'
 
         """ check the suits of the current entry and the entry below. 
             The difference is the absolute value of the difference between their ranks"""
         # if the suits are the same, calculate the difference in rank...
-        if suit_1 == suit_2:
-            waste = abs(rank_1 - rank_2)
+        if current_suit == next_suit:
+            waste = abs(current_rank - next_rank)
             total_waste += waste
 
         # ...otherwise, if the colors are the same, multiply the difference in rank by 2...
-        elif color_1 == color_2:
-            waste = 2 * abs(rank_1 - rank_2)
+        elif current_color == next_color:
+            waste = 2 * abs(current_rank - next_rank)
             total_waste += waste
 
         # ...otherwise, multiply the difference in rank by 3
-        elif color_1 != color_2:
-            waste = 3 * abs(rank_1 - rank_2)
+        elif current_color != next_color:
+            waste = 3 * abs(current_rank - next_rank)
             total_waste += waste
 
     return total_waste
