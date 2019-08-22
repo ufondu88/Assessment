@@ -3,15 +3,12 @@ import os
 
 
 def waste(input_file):
-    # insert input file into variable
-    filename = input_file
-
     # open the file and read it's contents and store into the 'batch' variable
-    with open(os.path.join(sys.path[0], filename), "r") as f:
+    with open(os.path.join(sys.path[0], input_file), "r") as f:
         batch = f.read()    
 
     # replace extraenous characters in the string with null space
-    batch = batch.replace('\n', '').replace(' ','').replace('[', '').replace(']', '').replace('"', '')
+    batch = batch.replace('\n', '').replace(' ', '').replace('[', '').replace(']', '').replace('"', '')
     
     # convert the string to a list
     batch = batch.split(',')
@@ -81,7 +78,7 @@ def calculate_waste(calculate_batch):
                 rank_1 = int(card[0])
             # ...or else, set the rank to the first two characters
             else:
-                rank_1 = int(card[:2])
+                rank_1 = int(card[0:2])
 
         # we do the same thing for the card below the current card as we did for the current card
         if card2[0] == 'A':
