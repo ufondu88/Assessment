@@ -78,7 +78,7 @@ def calculate_waste(calculate_batch):
                 rank_1 = int(card[0])
             # ...or else, set the rank to the first two characters
             else:
-                rank_1 = int(card[0:2])
+                rank_1 = int(card[:2])
 
         # we do the same thing for the card below the current card as we did for the current card
         if card2[0] == 'A':
