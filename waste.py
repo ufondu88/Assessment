@@ -20,7 +20,7 @@ def waste(input_file):
     # raise error if every item in the batch is not unique
     for item in batch:
         if batch.count(item) > 1:
-            print("This is an invalid batch. " + item + " appears more than once.")
+            print(f"This is an invalid batch. {item} appears more than once.")
             raise SystemExit
     # list to hold all the waste calculations
     waste_list = []
@@ -40,20 +40,19 @@ def waste(input_file):
         waste_list.append(next_waste)
 
     # initialize the smallest waste and it's index in 'waste_list'
-    least_waste = waste_list[0]
-    least_waste_index = 0
+    smallest_waste = waste_list[0]
+    smallest_waste_index = 0
 
     # find the smallest waste and it's index
     for i in range(len(waste_list)):
-        if waste_list[i] < least_waste:
-            least_waste = waste_list[i]
-            least_waste_index = i
+        if waste_list[i] < smallest_waste:
+            smallest_waste = waste_list[i]
+            smallest_waste_index = i
 
-    if initial_total <= least_waste:
-        print ("The total waste is " + str(initial_total) + ". Waste is already minimized")
+    if initial_total <= smallest_waste:
+        print (f"The total waste is {initial_total}. Waste is already minimized")
     else:
-        print("By swapping " + batch[least_waste_index] + " and " + batch[least_waste_index + 1] +
-              ", you could reduce waste metric from " + str(initial_total) + " to " + str(least_waste))
+        print(f"By swapping {batch[smallest_waste_index]} and {batch[smallest_waste_index + 1]}, you could reduce waste metric from {initial_total} to {smallest_waste}")
 
 
 def calculate_waste(calculate_batch):
